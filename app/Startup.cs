@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Core.Extensions;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NumberChallenge.Models;
+using System;
+using System.Text.RegularExpressions;
 
-namespace Microsoft.Bot.Samples
+namespace NumberChallenge
 {
     public class Startup
     {
@@ -25,9 +29,27 @@ namespace Microsoft.Bot.Samples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_ => Configuration);
-            services.AddBot<HelloBot>(options =>
+            services.AddBot<NumberBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+
+                var middleware = options.Middleware;
+                // Add middleware to send an appropriate message to the user if an exception occurs
+                middleware.Add(new CatchExceptionMiddleware<Exception>(async (context, exception) =>
+                {
+                    await context.SendActivity("Sorry, it looks like something went wrong!");
+                }));
+
+                // Add middleware to send periodic typing activities until the bot responds. The initial
+                // delay before sending a typing activity and the frequency of additional activities can also be specified
+                middleware.Add(new ShowTypingMiddleware());
+                middleware.Add(new UserState<UserData>(new MemoryStorage()));
+                middleware.Add(new ConversationState<ConversationData>(new MemoryStorage()));
+                
+                middleware.Add(new RegExpRecognizerMiddleware()
+                                .AddIntent("showGames", new Regex("show game(?:s)*(.*)", RegexOptions.IgnoreCase))
+                            );
+
             });
         }
 

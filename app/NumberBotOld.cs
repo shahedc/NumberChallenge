@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Bot;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Samples
+namespace NumberChallenge
 {
-    public class HelloBot : IBot
+    public class NumberBotOld : IBot
     {
         static int minNumber = 1;
         static int maxNumber = 100;
