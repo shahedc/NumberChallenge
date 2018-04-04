@@ -53,7 +53,7 @@ namespace NumberChallenge.Responses
 
         public static async Task ReplyWithTitlePrompt(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"{GameDescription(context, game)}\n\nWhat is your first guess?"));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"{GameDescription(context, game)}\n\nWhat is your guess?"));
         }
 
         public static async Task ReplyWithTitleValidationPrompt(ITurnContext context, Game game)

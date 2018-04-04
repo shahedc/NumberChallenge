@@ -20,7 +20,7 @@ namespace NumberChallenge.Responses
 
         public static async Task ReplyWithResumeTopic(ITurnContext context)
         {
-            await context.SendActivity($"What is your next guess?");
+            await context.SendActivity($"What next?");
         }
 
         public static async Task ReplyWithConfused(ITurnContext context)
