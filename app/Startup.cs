@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Core.Extensions;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LUIS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NumberChallenge.Models;
@@ -48,7 +49,14 @@ namespace NumberChallenge
                 
                 middleware.Add(new RegExpRecognizerMiddleware()
                                 .AddIntent("showGames", new Regex("show game(?:s)*(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("addGame", new Regex("add(?: a)* game(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("help", new Regex("help(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("cancel", new Regex("cancel(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("confirmYes", new Regex("(yes|yep|yessir|^y$)", RegexOptions.IgnoreCase))
+                                .AddIntent("confirmNo", new Regex("(no|nope|^n$)", RegexOptions.IgnoreCase))
                             );
+
+                //middleware.Add(new LuisRecognizerMiddleware());
 
             });
         }

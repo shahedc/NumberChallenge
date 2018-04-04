@@ -60,7 +60,8 @@ namespace NumberChallenge.Topics
             this.Game = new Game()
             {
                 // initialize from intent entities
-                Title = "New Game"
+                Title = context.RecognizedIntents.TopIntent?.Entities.Where(entity => entity.GroupName == "1")
+                    .Select(entity => entity.ValueAs<string>()).FirstOrDefault(),
 
             };
 
