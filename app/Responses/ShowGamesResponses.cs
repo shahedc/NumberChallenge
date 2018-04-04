@@ -21,7 +21,7 @@ namespace NumberChallenge.Responses
             {
                 foreach (var game in games)
                 {
-                    sb.AppendLine($"* Title: {game.Title}");
+                    sb.AppendLine($"* Guess: {game.Title}");
                 }
             }
             else

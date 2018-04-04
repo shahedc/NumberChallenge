@@ -13,7 +13,7 @@ namespace NumberChallenge.Responses
     {
         public static async Task ReplyWithStartTopic(ITurnContext context)
         {
-            await context.SendActivity($"Ok, let's add a game.");
+            await context.SendActivity($"Ok, let's start a game.");
         }
 
         public static async Task ReplyWithHelp(ITurnContext context, Game game = null)
@@ -43,32 +43,32 @@ namespace NumberChallenge.Responses
 
         public static async Task ReplyWithTimePrompt(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Adding game", $"{GameDescription(context, game)}\n\nWhat time would you like to set the game for?"));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"{GameDescription(context, game)}\n\nWhat time would you like to set the game for?"));
         }
 
         public static async Task ReplyWithTimePromptFuture(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Adding game", $"{GameDescription(context, game)}\n\nYou need to specify a time in the future. What time would you like to set the game?"));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"{GameDescription(context, game)}\n\nYou need to specify a time in the future. What time would you like to set the game?"));
         }
 
         public static async Task ReplyWithTitlePrompt(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Adding game", $"{GameDescription(context, game)}\n\nWhat would you like to call your game ?"));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"{GameDescription(context, game)}\n\nWhat is your first guess?"));
         }
 
         public static async Task ReplyWithTitleValidationPrompt(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Adding game", $"Your title needs to be between 1 and 100 characterslong\n\n{GameDescription(context, game)}\n\nWhat would you like to call your game ?"));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Starting game", $"Your title needs to be between 1 and 100 characterslong\n\n{GameDescription(context, game)}\n\nWhat would you like to call your game ?"));
         }
 
         public static async Task ReplyWithAddConfirmation(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithSuggestions(context, $"Adding Game", $"{GameDescription(context, game)}\n\nDo you want to save this game?", YesNo));
+            await context.SendActivity(ResponseHelpers.ReplyWithSuggestions(context, $"Storing guess", $"{GameDescription(context, game)}\n\nDo you want to submit this guess?", YesNo));
         }
 
         public static async Task ReplyWithAddedAlarm(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Game Added", $"{GameDescription(context, game)}."));
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Guess stored", $"{GameDescription(context, game)}."));
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace NumberChallenge.Responses
         {
             StringBuilder sb = new StringBuilder();
             if (!String.IsNullOrWhiteSpace(game.Title))
-                sb.AppendLine($"* Title: {game.Title}");
+                sb.AppendLine($"* Guess: {game.Title}");
             else
-                sb.AppendLine($"* Title: -");
+                sb.AppendLine($"* Guess: -");
 
             return sb.ToString();
         }
