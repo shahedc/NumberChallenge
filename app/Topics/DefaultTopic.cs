@@ -64,9 +64,9 @@ namespace NumberChallenge.Topics
                 case ActivityTypes.Message:
                     switch (context.RecognizedIntents.TopIntent?.Name)
                     {
-                        case "addGame":
-                            // switch to addGame topic
-                            context.ConversationState.ActiveTopic = new AddGameTopic();
+                        case "startGame":
+                            // switch to startGame topic
+                            context.ConversationState.ActiveTopic = new StartGameTopic();
                             return await context.ConversationState.ActiveTopic.StartTopic(context);
                         case "showGames":
                             // switch to show games topic

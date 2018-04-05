@@ -12,7 +12,7 @@ namespace NumberChallenge.Topics
     /// <summary>
     /// Class around topic of adding a game
     /// </summary>
-    public class AddGameTopic : ITopic
+    public class StartGameTopic : ITopic
     {
         /// <summary>
         /// enumeration of states of the converation

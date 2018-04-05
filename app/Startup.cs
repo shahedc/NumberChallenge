@@ -49,7 +49,7 @@ namespace NumberChallenge
                 
                 middleware.Add(new RegExpRecognizerMiddleware()
                                 .AddIntent("showGames", new Regex("show game(?:s)*(.*)", RegexOptions.IgnoreCase))
-                                .AddIntent("addGame", new Regex("add(?: a)* game(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("startGame", new Regex("start(?: a)* game(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("help", new Regex("help(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("cancel", new Regex("cancel(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("confirmYes", new Regex("(yes|yep|yessir|^y$)", RegexOptions.IgnoreCase))

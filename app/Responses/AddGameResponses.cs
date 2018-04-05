@@ -63,7 +63,7 @@ namespace NumberChallenge.Responses
 
         public static async Task ReplyWithAddConfirmation(ITurnContext context, Game game)
         {
-            await context.SendActivity(ResponseHelpers.ReplyWithSuggestions(context, $"Storing guess", $"{GameDescription(context, game)}\n\nDo you want to submit this guess?", YesNo));
+            await context.SendActivity(ResponseHelpers.ReplyWithSuggestions(context, $"Storing guess...", $"{GameDescription(context, game)}\n\nDo you want to submit this guess?", YesNo));
         }
 
         public static async Task ReplyWithAddedAlarm(ITurnContext context, Game game)
