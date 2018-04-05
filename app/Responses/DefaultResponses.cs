@@ -10,12 +10,12 @@ namespace NumberChallenge.Responses
     {
         public static async Task ReplyWithGreeting(ITurnContext context)
         {
-            await context.SendActivity($"Hello, I'm the number bot.");
+            await context.SendActivity($"Hello, I'm the number guessing game bot.");
         }
 
         public static async Task ReplyWithHelp(ITurnContext context)
         {
-            await context.SendActivity($"I can start a game, show games or delete a game.");
+            await context.SendActivity($"You can guess or show guesses.");
         }
 
         public static async Task ReplyWithResumeTopic(ITurnContext context)

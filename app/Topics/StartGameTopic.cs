@@ -57,15 +57,16 @@ namespace NumberChallenge.Topics
         /// <returns></returns>
         public Task<bool> StartTopic(NumberBotContext context)
         {
-            this.Game = new Game()
-            {
-                // initialize from intent entities
-                Title = context.RecognizedIntents.TopIntent?.Entities.Where(entity => entity.GroupName == "1")
-                    .Select(entity => entity.ValueAs<string>()).FirstOrDefault(),
+            this.Game = new Game();
+            //this.Game = new Game()
+            //{
+            //    // initialize from intent entities
+            //    Title = context.RecognizedIntents.TopIntent?.Entities.Where(entity => entity.GroupName == "1")
+            //        .Select(entity => entity.ValueAs<string>()).FirstOrDefault(),
 
-            };
-
-            return PromptForMissingData(context);
+            //};
+            
+            return PromptForMissingData(context); // Start Topic return
         }
 
 
@@ -81,20 +82,20 @@ namespace NumberChallenge.Topics
             {
                 switch (context.RecognizedIntents.TopIntent?.Name)
                 {
-                    case "showGames":
+                    case "showGuesses":
                         // allow show alarm to interrupt, but it's one turn, so we show the data without changing the topic
                         await new ShowGamesTopic().StartTopic(context);
-                        return await this.PromptForMissingData(context);
+                        return await this.PromptForMissingData(context); // Continue Topic - showGames
 
                     case "help":
                         // show contextual help 
                         await AddGameResponses.ReplyWithHelp(context, this.Game);
-                        return await this.PromptForMissingData(context);
+                        return await this.PromptForMissingData(context); // Continue Topic - help
 
                     case "cancel":
                         // prompt to cancel
                         await AddGameResponses.ReplyWithCancelPrompt(context, this.Game);
-                        this.TopicState = TopicStates.CancelConfirmation;
+                        this.TopicState = TopicStates.CancelConfirmation; // Continue Topic cancel
                         return true;
 
                     default:
@@ -108,37 +109,48 @@ namespace NumberChallenge.Topics
         {
             string utterance = (context.Activity.AsMessageActivity().Text ?? "").Trim();
 
-            // we ar eusing TopicState to remember what we last asked
-            switch (this.TopicState)
+            // process without confirmation
+            this.TopicState = TopicStates.AddConfirmation;
+            this.Game.Title = utterance;
+            if (context.UserState.Games == null)
             {
-                case TopicStates.TitlePrompt:
-                    this.Game.Title = utterance;
-                    return await this.PromptForMissingData(context);                    
-
-                case TopicStates.AddConfirmation:
-                    switch (context.RecognizedIntents.TopIntent?.Name)
-                    {
-                        case "confirmYes":
-                            if (context.UserState.Games == null)
-                            {
-                                context.UserState.Games = new List<Game>();
-                            }
-                            context.UserState.Games.Add(this.Game);
-                            await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
-                            // end topic
-                            return false;
-
-                        case "confirmNo":
-                            await AddGameResponses.ReplyWithTopicCanceled(context);
-                            // End current topic
-                            return false;
-                        default:
-                            return await this.PromptForMissingData(context);
-                    }
-
-                default:
-                    return await this.PromptForMissingData(context);
+                context.UserState.Games = new List<Game>();
             }
+            context.UserState.Games.Add(this.Game);
+            await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
+            return false;
+            
+            //we are using TopicState to remember what we last asked
+            //switch (this.TopicState)
+            //{
+            //    case TopicStates.TitlePrompt:
+            //        this.Game.Title = utterance;
+            //        return await this.PromptForMissingData(context); // Process Topic State - Title Prompt
+
+            //    case TopicStates.AddConfirmation:
+            //        switch (context.RecognizedIntents.TopIntent?.Name)
+            //        {
+            //            case "confirmYes":
+            //                if (context.UserState.Games == null)
+            //                {
+            //                    context.UserState.Games = new List<Game>();
+            //                }
+            //                context.UserState.Games.Add(this.Game);
+            //                await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
+            //                // end topic
+            //                return false;
+
+            //            case "confirmNo":
+            //                await AddGameResponses.ReplyWithTopicCanceled(context);
+            //                // End current topic
+            //                return false;
+            //            default:
+            //                return await this.PromptForMissingData(context); // Process Topic State - Add Confirmation (default)
+            //        }
+
+            //    default:
+            //        return await this.PromptForMissingData(context); // Process Topic State - default
+            //}
         }
 
         /// <summary>
@@ -149,7 +161,7 @@ namespace NumberChallenge.Topics
         public Task<bool> ResumeTopic(NumberBotContext context)
         {
             // simply prompt again based on our state
-            return this.PromptForMissingData(context);
+            return this.PromptForMissingData(context); // Resume Topic - return
         }
 
         /// <summary>

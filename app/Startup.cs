@@ -48,8 +48,8 @@ namespace NumberChallenge
                 middleware.Add(new ConversationState<ConversationData>(new MemoryStorage()));
                 
                 middleware.Add(new RegExpRecognizerMiddleware()
-                                .AddIntent("showGames", new Regex("show game(?:s)*(.*)", RegexOptions.IgnoreCase))
-                                .AddIntent("startGame", new Regex("start(?: a)* game(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("showGuesses", new Regex("show guess(?:es)*(.*)", RegexOptions.IgnoreCase))
+                                .AddIntent("startGuess", new Regex("guess(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("help", new Regex("help(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("cancel", new Regex("cancel(.*)", RegexOptions.IgnoreCase))
                                 .AddIntent("confirmYes", new Regex("(yes|yep|yessir|^y$)", RegexOptions.IgnoreCase))

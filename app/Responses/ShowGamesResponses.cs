@@ -15,17 +15,17 @@ namespace NumberChallenge.Responses
         public static async Task ReplyWithShowGames(ITurnContext context, IEnumerable<Game> games)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("# Current Games\n");
+            sb.AppendLine("# Current Guesses\n");
 
             if (games != null && games.Any())
             {
                 foreach (var game in games)
                 {
-                    sb.AppendLine($"* Guess: {game.Title}");
+                    sb.AppendLine($"* {game.Title}");
                 }
             }
             else
-                sb.AppendLine("*There are no games defined.*");
+                sb.AppendLine("*There are no guesses yet.*");
 
             await context.SendActivity(sb.ToString());
         }
