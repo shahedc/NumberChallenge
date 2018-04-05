@@ -43,6 +43,8 @@ namespace NumberChallenge.Topics
         /// </summary>
         public Game Game { get; set; }
 
+        public Guess Guess { get; set; }
+
         /// <summary>
         /// Current state of the topic conversation
         /// </summary>
@@ -58,6 +60,7 @@ namespace NumberChallenge.Topics
         public Task<bool> StartTopic(NumberBotContext context)
         {
             this.Game = new Game();
+            this.Guess = new Guess();
             //this.Game = new Game()
             //{
             //    // initialize from intent entities
@@ -65,7 +68,7 @@ namespace NumberChallenge.Topics
             //        .Select(entity => entity.ValueAs<string>()).FirstOrDefault(),
 
             //};
-            
+
             return PromptForMissingData(context); // Start Topic return
         }
 
@@ -111,13 +114,23 @@ namespace NumberChallenge.Topics
 
             // process without confirmation
             this.TopicState = TopicStates.AddConfirmation;
+
             this.Game.Title = utterance;
             if (context.UserState.Games == null)
             {
                 context.UserState.Games = new List<Game>();
             }
             context.UserState.Games.Add(this.Game);
-            await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
+            //await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
+
+            this.Guess.GuessValue = Convert.ToInt32(utterance);
+            if (context.UserState.Guesses == null)
+            {
+                context.UserState.Guesses = new List<Guess>();
+            }
+            context.UserState.Guesses.Add(this.Guess);
+            await AddGameResponses.ReplyWithAddedGuess(context, this.Guess);
+
             return false;
             
             //we are using TopicState to remember what we last asked

@@ -71,6 +71,11 @@ namespace NumberChallenge.Responses
             await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Guess stored", $"{GameDescription(context, game)}."));
         }
 
+        public static async Task ReplyWithAddedGuess(ITurnContext context, Guess guess)
+        {
+            await context.SendActivity(ResponseHelpers.ReplyWithTitle(context, $"Guess stored", $"{GuessInfo(context, guess)}."));
+        }
+
         /// <summary>
         /// Standard language game description
         /// </summary>
@@ -87,6 +92,11 @@ namespace NumberChallenge.Responses
             return sb.ToString();
         }
 
+        public static string GuessInfo(ITurnContext context, Guess guess)
+        {
+            return $"* Guess: {guess.GuessValue}";
+        }
+
         public static string[] YesNo = { "Yes", "No" };
-    }
+    }    
 }

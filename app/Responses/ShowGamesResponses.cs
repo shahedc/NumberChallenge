@@ -12,16 +12,16 @@ namespace NumberChallenge.Responses
     /// </summary>
     public static class ShowGamesResponses
     {
-        public static async Task ReplyWithShowGames(ITurnContext context, IEnumerable<Game> games)
+        public static async Task ReplyWithShowGames(ITurnContext context, IEnumerable<Guess> guesses)
         {
             var sb = new StringBuilder();
             sb.AppendLine("# Current Guesses\n");
 
-            if (games != null && games.Any())
+            if (guesses != null && guesses.Any())
             {
-                foreach (var game in games)
+                foreach (var guess in guesses)
                 {
-                    sb.AppendLine($"* {game.Title}");
+                    sb.AppendLine($"* {guess.GuessValue}");
                 }
             }
             else

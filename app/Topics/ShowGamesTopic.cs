@@ -43,7 +43,7 @@ namespace NumberChallenge.Topics
 
         public static async Task ShowGames(NumberBotContext context)
         {
-            await ShowGamesResponses.ReplyWithShowGames(context, context.UserState.Games);
+            await ShowGamesResponses.ReplyWithShowGames(context, context.UserState.Guesses);
         }
 
     }

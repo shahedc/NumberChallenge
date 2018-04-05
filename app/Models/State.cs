@@ -18,5 +18,6 @@ namespace NumberChallenge.Models
     public class UserData : StoreItem
     {
         public IList<Game> Games { get; set; }
+        public IList<Guess> Guesses { get; set; }
     }
 }
