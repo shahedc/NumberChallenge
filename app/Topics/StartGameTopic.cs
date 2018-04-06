@@ -61,6 +61,7 @@ namespace NumberChallenge.Topics
         {
             this.Game = new Game();
             this.Guess = new Guess();
+            
             //this.Game = new Game()
             //{
             //    // initialize from intent entities
@@ -123,7 +124,37 @@ namespace NumberChallenge.Topics
             context.UserState.Games.Add(this.Game);
             //await AddGameResponses.ReplyWithAddedAlarm(context, this.Game);
 
-            this.Guess.GuessValue = Convert.ToInt32(utterance);
+            // get values
+            int guessedNumber = Convert.ToInt32(utterance);
+            int secretNumber = context.UserState.SecretNumber;
+            int minNumber = context.UserState.MinNumber;
+            int maxNumber = context.UserState.MaxNumber;
+            // calculate
+            if (guessedNumber == secretNumber)
+            {
+                this.Guess.Comp = 0; // correct
+            } 
+            else
+            {
+                if (guessedNumber > secretNumber)
+                {
+                    if (guessedNumber < maxNumber)
+                        maxNumber = guessedNumber;
+
+                    this.Guess.Comp = 1; // too high
+                }
+                else if (guessedNumber < secretNumber)
+                {
+                    if (guessedNumber > minNumber)
+                        minNumber = guessedNumber;
+
+                    this.Guess.Comp = -1; // too low
+                }
+                // guess again!
+            }
+            // update user state
+
+            this.Guess.GuessValue = guessedNumber;
             if (context.UserState.Guesses == null)
             {
                 context.UserState.Guesses = new List<Guess>();

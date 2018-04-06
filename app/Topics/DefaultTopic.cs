@@ -4,6 +4,7 @@ using NumberChallenge;
 using NumberChallenge.Models;
 using NumberChallenge.Responses;
 using Microsoft.Bot.Schema;
+using System;
 
 namespace NumberChallenge.Topics
 {
@@ -12,6 +13,10 @@ namespace NumberChallenge.Topics
     /// </summary>
     public class DefaultTopic : ITopic
     {
+        public int SecretNumber { get; set; }
+        public int MinNumber { get; set; }
+        public int MaxNumber { get; set; }
+
         public string Name { get; set; } = "Default";
 
         // track in this topic if we have greeted the user already
@@ -32,6 +37,13 @@ namespace NumberChallenge.Topics
                         var activity = context.Activity.AsConversationUpdateActivity();
                         if (activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
                         {
+                            this.MinNumber = 1;
+                            this.MaxNumber = 100;
+
+                            Random rnd = new Random();
+                            this.SecretNumber = rnd.Next(this.MinNumber, this.MaxNumber);
+                            context.UserState.SecretNumber = this.SecretNumber;
+
                             await DefaultResponses.ReplyWithGreeting(context);
                             await DefaultResponses.ReplyWithHelp(context);
                             this.Greeted = true;

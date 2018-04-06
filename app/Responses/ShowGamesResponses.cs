@@ -15,13 +15,23 @@ namespace NumberChallenge.Responses
         public static async Task ReplyWithShowGames(ITurnContext context, IEnumerable<Guess> guesses)
         {
             var sb = new StringBuilder();
+            sb.AppendLine($"Secret Number: {((NumberBotContext)context).UserState.SecretNumber}\n");
             sb.AppendLine("# Current Guesses\n");
 
             if (guesses != null && guesses.Any())
             {
                 foreach (var guess in guesses)
                 {
-                    sb.AppendLine($"* {guess.GuessValue}");
+                    var compText = new StringBuilder("(");
+                    if (guess.Comp < 0)
+                        compText.Append("too low");
+                    else if (guess.Comp > 0)
+                        compText.Append("too high");
+                    else if (guess.Comp == 0)
+                        compText.Append("correct!");
+
+                    compText.Append(")");
+                    sb.AppendLine($"* {guess.GuessValue}: {compText}");
                 }
             }
             else

@@ -19,5 +19,9 @@ namespace NumberChallenge.Models
     {
         public IList<Game> Games { get; set; }
         public IList<Guess> Guesses { get; set; }
+
+        public int SecretNumber { get; set; }
+        public int MinNumber { get; set; }
+        public int MaxNumber { get; set; } 
     }
 }
